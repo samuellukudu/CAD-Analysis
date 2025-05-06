@@ -2,6 +2,7 @@
 
 ## High level architecture
 
+```sql
 +--------------------+
 |   User Interface   |
 | (chatbot/search UI)|
@@ -31,7 +32,7 @@
 | Response Generation  |
 | (Natural language)   |
 +----------------------+
-
+```
 
 Knowledge base for agriculture, supporting both images and texts
 
