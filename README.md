@@ -1,4 +1,38 @@
 # AgricultureKnowledgeBase
+
+## High level architecture
+
++--------------------+
+|   User Interface   |
+| (chatbot/search UI)|
++--------------------+
+         ↓
++------------------------+
+|   Query Preprocessing  |
+| (intent parsing, NER)  |
++------------------------+
+         ↓
++-----------------------------+
+| Retrieval Augmented Gen.   |
+|  (LLM + Vector Store)       |
++-----------------------------+
+     ↓           ↑
++---------+   +----------------+
+|  LLM    |←→| Vector DB (FAISS/|
+| (e.g.   |   | Weaviate, etc.)|
+| GPT-4)  |   +----------------+
++---------+         ↑
+         ↓      +-------------------------+
+   +-------------| Knowledge Base         |
+   |             | (extracted facts, docs)|
+   |             +-------------------------+
+   ↓
++----------------------+
+| Response Generation  |
+| (Natural language)   |
++----------------------+
+
+
 Knowledge base for agriculture, supporting both images and texts
 
 * **Intelligent Information Retrieval** to help users find answers quickly?
