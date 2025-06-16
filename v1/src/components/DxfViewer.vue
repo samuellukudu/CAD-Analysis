@@ -79,6 +79,26 @@ export default {
                     progressCbk: this._OnProgress.bind(this),
                     workerFactory: DxfViewerWorker
                 })
+
+                // Log available drawing information after loading
+                console.log('DXF File Loaded');
+                
+                // Subscribe to view changes
+                this.dxfViewer.Subscribe('viewChanged', (e) => {
+                    console.log('View Changed:', {
+                        viewBox: e.viewBox,
+                        event: e
+                    });
+                });
+
+                // Subscribe to loaded event to get layer information
+                this.dxfViewer.Subscribe('loaded', (e) => {
+                    console.log('Drawing Loaded:', {
+                        layers: e.layers,
+                        event: e
+                    });
+                });
+
             } catch (error) {
                 console.warn(error)
                 this.error = error.toString()
@@ -93,6 +113,22 @@ export default {
         /** @return {DxfViewer} */
         GetViewer() {
             return this.dxfViewer
+        },
+
+        /**
+         * Returns all entities for a given layer name.
+         * @param {string} layerName
+         * @returns {Array} Array of entity objects
+         */
+        GetEntitiesByLayer(layerName) {
+            // Try to access entities from dxf-viewer internal structure
+            if (this.dxfViewer && this.dxfViewer.drawing && this.dxfViewer.drawing.entities) {
+                return this.dxfViewer.drawing.entities.filter(e => e.layer === layerName);
+            }
+            if (this.dxfViewer && this.dxfViewer.entities) {
+                return this.dxfViewer.entities.filter(e => e.layer === layerName);
+            }
+            return [];
         },
 
         _OnProgress(phase, size, totalSize) {

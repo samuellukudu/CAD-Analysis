@@ -11,7 +11,9 @@ module.exports = {
     configureWebpack: {
         plugins: [
             new DefinePlugin({
-                "DXF_VIEWER_VERSION": JSON.stringify(dxfViewerPackageJson.version)
+                "DXF_VIEWER_VERSION": JSON.stringify(dxfViewerPackageJson.version),
+                "__VUE_PROD_HYDRATION_MISMATCH_DETAILS__": JSON.stringify(true),
+                "__VUE_PROD_DEVTOOLS__": JSON.stringify(false)
             })
         ]
     }

@@ -54,12 +54,37 @@ export default {
 
     methods: {
         _ToggleLayer(layer, newState) {
+            console.log('Layer toggled:', {
+                name: layer.name,
+                displayName: layer.displayName,
+                color: layer.color,
+                isVisible: newState,
+                data: layer
+            });
+            // Log geometric entities for this layer
+            try {
+                // Traverse up to the DxfViewer component via $parent chain
+                let parent = this.$parent;
+                while (parent && !parent.$refs?.viewer) {
+                    parent = parent.$parent;
+                }
+                if (parent && parent.$refs && parent.$refs.viewer) {
+                    const entities = parent.$refs.viewer.GetEntitiesByLayer(layer.name);
+                    console.log('Geometric entities for layer', layer.name, entities);
+                }
+            } catch (e) {
+                console.warn('Could not fetch entities for layer', layer.name, e);
+            }
             this.$emit("toggleLayer", layer, newState)
             // Only update showAll if all layers match the new state
             this.showAll = this.layers.every(l => l.isVisible === newState)
         },
 
         _ToggleAll(newState) {
+            console.log('All layers toggled:', {
+                state: newState,
+                layers: this.layers
+            });
             this.showAll = newState
             this.$emit("toggleAll", newState)
         },

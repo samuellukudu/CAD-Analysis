@@ -13,7 +13,10 @@ export default {
                 QBadge, QBtn, QCard, QCardSection, QCheckbox, QDialog, QFile, QFooter, QForm, QHeader, QIcon, QInnerLoading, QInput, QItem, QItemLabel, QItemSection, QLayout, QLinearProgress, QList, QPage, QPageContainer, QScrollArea, QSeparator, QSpace, QSpinner, QToggle, QToolbar, QToolbarTitle
             },
             plugins: {
-                Notify, ClosePopup
+                Notify
+            },
+            directives: {
+                ClosePopup
             }
         });
     }
