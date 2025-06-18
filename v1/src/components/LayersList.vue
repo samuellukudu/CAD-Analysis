@@ -21,6 +21,9 @@
             <q-item-section>
                 <q-item-label>{{layer.displayName}}</q-item-label>
             </q-item-section>
+            <q-item-section side top>
+                <q-btn size="sm" icon="download" flat @click.stop="_ExportLayerData(layer)" title="Export layer data" />
+            </q-item-section>
         </q-item>
     </q-list>
 </q-scroll-area>
@@ -95,6 +98,22 @@ export default {
                 s = "0" + s
             }
             return "#" + s
+        },
+
+        _ExportLayerData(layer) {
+            try {
+                // Traverse up to the DxfViewer component via $parent chain
+                let parent = this.$parent;
+                while (parent && !parent.$refs?.viewer) {
+                    parent = parent.$parent;
+                }
+                if (parent && parent.$refs && parent.$refs.viewer) {
+                    const data = parent.$refs.viewer.GetEntitiesCoordinatesByLayer(layer.name);
+                    console.log('Exported coordinates for layer', layer.name, data);
+                }
+            } catch (e) {
+                console.warn('Could not export entities for layer', layer.name, e);
+            }
         }
     }
 }
